@@ -44,6 +44,7 @@ connectDB();
 //#region ~ Routes ~
 
 app.use('/api/v1/auth', require('./routes/auth-routes'));
+app.use('/api/v1/blog', require('./routes/blog-routes'));
 
 //#endregion
 
@@ -54,18 +55,6 @@ app.use((req, res, next) => {
 });
 
 //#endregion
-
-let paths = [
-  { lat: 37.7749, lng: -122.4194 },
-  { lat: 37.7748, lng: -122.4079 },
-  { lat: 37.7666, lng: -122.4063 },
-  { lat: 37.7666, lng: -122.4191 },
-];
-
-const result = paths.map(p => [p.lng, p.lat]);
-
-console.log(result);
-
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
