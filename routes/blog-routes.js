@@ -6,6 +6,9 @@ const {
   getMyBlogs,
   publishBlog,
   updateBlog,
+  deleteBlog,
+  addAClapBlog,
+  addALikeBlog,
 } = require('../controllers/blog-controller');
 const { authRoutes } = require('../middlewares/auth');
 
@@ -15,6 +18,12 @@ router.route('/create').post(authRoutes, createBlog);
 
 router.route('/all').get(getBlogs);
 router.route('/myblogs').get(authRoutes, getMyBlogs);
-router.route('/:id').get(getBlog).put(updateBlog);
+router
+  .route('/:id')
+  .get(getBlog)
+  .put(authRoutes, updateBlog)
+  .delete(authRoutes, deleteBlog);
 router.route('/publish/:id').put(publishBlog);
+router.route('/clap/:id').put(addAClapBlog);
+router.route('/like/:id').put(authRoutes, addALikeBlog);
 module.exports = router;

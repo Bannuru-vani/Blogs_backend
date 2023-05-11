@@ -19,7 +19,7 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
   let { email, password } = req.body;
 
   if (!email || !password) {
-    return next(new httpError('Please check your email and pasword', 403));
+    return next(new httpError('Please check your email and password', 403));
   }
   let user = await User.findOne({ email }).select('+password');
 

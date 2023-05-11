@@ -36,4 +36,10 @@ const BlogSchema = mongoose.Schema({
   },
 });
 
+BlogSchema.pre('save', function (next) {
+  this.updatedAt = Date.now();
+  console.log('tgggis');
+  next();
+});
+
 module.exports = mongoose.model('Blog', BlogSchema);
