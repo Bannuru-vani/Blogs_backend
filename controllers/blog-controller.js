@@ -1,21 +1,42 @@
 const Blog = require('../models/Blog')
 const asyncHandler = require('../middlewares/asyncHandler')
 const httpError = require('../utils/httpError')
+const Categories = require('../models/Categories')
 
 //#region ~ POST - /api/v1/blog/create - Create Blog - PRIVATE -
 exports.createBlog = asyncHandler(async (req, res, next) => {
   let { title, subTitle, author, tags, category, content } = req.body
   author = req.user._id
-  console.log({ title, subTitle, author, tags, category, content })
-  const blog = await Blog.create({
-    title,
-    subTitle,
-    author,
-    tags,
-    category,
-    content,
+  // console.log({ title, subTitle, author, tags, category, content })
+
+  let pp = category.map(async (cat) => {
+    const categories = await Categories.find({ name: cat })
+    if (categories.length === 0) {
+      return await Categories.create({
+        name: cat,
+      })
+    }
   })
-  return res.status(201).json({ message: `${title} is added to Draft` })
+
+  Promise.all(pp).then(() => {
+    let cats = category.map(async (cat) => {
+      let matchedCat = await Categories.find({ name: cat })
+      return matchedCat[0]._id
+    })
+
+    Promise.all(cats).then(
+      async (val) =>
+        await Blog.create({
+          title,
+          subTitle,
+          author,
+          tags,
+          category: val,
+          content,
+        })
+    )
+    return res.status(201).json({ message: `${title} is added to Draft` })
+  })
 })
 //#endregion
 

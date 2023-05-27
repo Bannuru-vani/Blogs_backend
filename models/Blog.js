@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const BlogSchema = mongoose.Schema({
   title: {
@@ -21,7 +21,12 @@ const BlogSchema = mongoose.Schema({
       ref: 'User',
     },
   ],
-  category: { string: String },
+  category: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Category',
+    },
+  ],
   stage: {
     type: String,
     enum: ['draft', 'publish'],
@@ -34,12 +39,12 @@ const BlogSchema = mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-});
+})
 
 BlogSchema.pre('save', function (next) {
-  this.updatedAt = Date.now();
-  console.log('tgggis');
-  next();
-});
+  this.updatedAt = Date.now()
+  console.log('tgggis')
+  next()
+})
 
-module.exports = mongoose.model('Blog', BlogSchema);
+module.exports = mongoose.model('Blog', BlogSchema)
