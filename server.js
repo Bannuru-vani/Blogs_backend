@@ -47,6 +47,7 @@ connectDB()
 app.use('/api/v1/auth', require('./routes/auth-routes'))
 app.use('/api/v1/blog', require('./routes/blog-routes'))
 app.use('/api/v1/categories', require('./routes/categories-routes'))
+app.use('/api/v1/todo', require('./routes/todo-routes'))
 
 //#endregion
 
